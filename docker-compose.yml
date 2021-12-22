@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # api:
+  #   container_name: open-academic-api
+  #   depends_on:
+  #     - mongo
+  #   build:
+  #     context: .
+  #     target: development
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   restart: unless-stopped
+  #   command: npm run start:debug
+  #   environment:
+  #     MONGO_HOST: mongo
+  #     MONGO_DB_NAME: open-academic-db
+  #     MONGO_USER: app-user
+  #     MONGO_PASS: app-pass
+  #     NODE_ENV: development
+  #     MONGO_SOCKET_TIMEOUT: 30000
+  #     MONGO_CONNECT_TIMEOUT: 30000
+  #     NODE_PATH: .
+
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: open-academic-db
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root-pass
+    volumes:
+      - ./scripts/docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro

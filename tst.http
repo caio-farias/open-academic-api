@@ -1,0 +1,15 @@
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+  "firstName": "Bira",
+  "lastName": "Silva",
+  "roles": ["Acadêmico", "Revisor"],
+  "email": "bira@email.com",
+  "password": "user-pass"
+}
+
+###
+
+GET http://localhost:3000/users/80f549b7-6efb-481b-9cea-c02cc8d4f87c HTTP/1.1
+content-type: application/json

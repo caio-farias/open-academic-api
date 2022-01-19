@@ -15,6 +15,7 @@ export abstract class EntityRepository<T extends Document> {
       })
       .exec();
   }
+
   async find(
     entityFilterQuery: FilterQuery<T>,
     projection?: Record<string, unknown>,
@@ -38,6 +39,11 @@ export abstract class EntityRepository<T extends Document> {
         new: true,
       },
     );
+  }
+
+  async deleteOne(entityFilterQuery: FilterQuery<T>): Promise<boolean> {
+    const deleteResult = this.entityModel.deleteOne(entityFilterQuery);
+    return (await deleteResult).deletedCount == 1;
   }
 
   async deleteMany(entityFilterQuery: FilterQuery<T>): Promise<boolean> {

@@ -1,15 +1,50 @@
-POST http://localhost:3000/users HTTP/1.1
+@dev_url=http://localhost:3000/api/v1
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJpcmFAZW1haWwuY29tIiwic3ViIjoiYmlyYUBlbWFpbC5jb20xNGMyNjFhMy03OWFlLTQwNWUtOTlhMC1kNDI3NGJmZjYwOTkiLCJpYXQiOjE2NDI2MzQyNzQsImV4cCI6MTY1MzAwMjI3NH0.hvmbmYv4bfq4sZnMFRC0UE1xIs8WGmHCzgFYHEqrirA
+## USERS
+POST {{dev_url}}/users HTTP/1.1
 content-type: application/json
 
 {
   "firstName": "Bira",
   "lastName": "Silva",
   "roles": ["Acadêmico", "Revisor"],
-  "email": "bira@email.com",
+  "email": "bira1@email.com",
   "password": "user-pass"
 }
 
 ###
 
-GET http://localhost:3000/users/80f549b7-6efb-481b-9cea-c02cc8d4f87c HTTP/1.1
+GET {{dev_url}}/users/507674db-faf4-414c-8b73-f159d6c64564 HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
+###
+
+GET {{dev_url}}/users HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+###
+PATCH {{dev_url}}/users/14c261a3-79ae-405e-99a0-d4274bff6099 HTTP/1.1
+content-Type: application/json
+Authorization: {{token}}
+
+{
+  "firstName": "Bira Caio",
+  "lastName": "Silva Fernandes"
+}
+
+###
+DELETE  {{dev_url}}/users/890c8ad5-e131-47b9-b949-031f5e52a0b0 HTTP/1.1
+content-Type: application/json
+Authorization: {{token}}
+
+###
+
+## AUTH
+POST {{dev_url}}/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "username": "bira@email.com",
+  "password": "user-pass"
+}

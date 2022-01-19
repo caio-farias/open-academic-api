@@ -2,9 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import Qualifications from './qualifications.schema';
 
-@Schema()
+@Schema({ toJSON: { getters: true }, toObject: { getters: true } })
 export class User {
-  @Prop()
+  @Prop({ get: (v) => v })
   userId: string;
 
   @Prop({ required: true })
@@ -71,6 +71,10 @@ export class User {
     },
   })
   qualifications: Qualifications;
+
+  getEmail() {
+    return this.email;
+  }
 }
 
 export type UserDocument = User & Document;

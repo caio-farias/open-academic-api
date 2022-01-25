@@ -12,8 +12,8 @@ export class UsersService {
     return this.usersRepository.findOne({ userId });
   }
 
-  async getUsers(query): Promise<User[]> {
-    return this.usersRepository.find(query);
+  async getUsers(query, options): Promise<User[]> {
+    return this.usersRepository.find(query, options);
   }
 
   async getUserByEmail(email: string): Promise<User> {
@@ -38,16 +38,16 @@ export class UsersService {
   }
 
   async findOrCreate(maybeUser: any): Promise<User> {
-    const user = this.getUserByEmail(maybeUser.email);
+    const user = await this.getUserByEmail(maybeUser.email);
     if (user) return user;
-    const { firstName, lastName, roles, email, password } = maybeUser;
+    const { firstName, lastName, email, picture } = maybeUser;
     return this.usersRepository.create({
       userId: uuid(),
       firstName,
       lastName,
-      roles,
       email,
-      password,
+      profilePhoto: picture,
+      password: uuid(email),
     });
   }
 

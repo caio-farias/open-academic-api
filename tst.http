@@ -1,5 +1,6 @@
 @dev_url=http://localhost:3000/api/v1
 @token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJpcmFAZW1haWwuY29tIiwic3ViIjoiYmlyYUBlbWFpbC5jb20xNGMyNjFhMy03OWFlLTQwNWUtOTlhMC1kNDI3NGJmZjYwOTkiLCJpYXQiOjE2NDI2MzQyNzQsImV4cCI6MTY1MzAwMjI3NH0.hvmbmYv4bfq4sZnMFRC0UE1xIs8WGmHCzgFYHEqrirA
+@userId=bb503075-e1e2-4337-a48a-49fd68e8c86d
 ## USERS
 POST {{dev_url}}/users HTTP/1.1
 content-type: application/json
@@ -14,23 +15,35 @@ content-type: application/json
 
 ###
 
-GET {{dev_url}}/users/507674db-faf4-414c-8b73-f159d6c64564 HTTP/1.1
+GET {{dev_url}}/users/{{userId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 ###
 
-GET {{dev_url}}/users HTTP/1.1
+GET {{dev_url}}/users?education=grad HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
 ###
-PATCH {{dev_url}}/users/14c261a3-79ae-405e-99a0-d4274bff6099 HTTP/1.1
+PATCH {{dev_url}}/users/{{userId}} HTTP/1.1
 content-Type: application/json
 Authorization: {{token}}
 
 {
-  "firstName": "Bira Caio",
-  "lastName": "Silva Fernandes"
+  "expirienceTime": 5,
+  "roles": ["Tradutor","Acadêmico"],
+  "qualifications": {
+    "languages": ["Inglês", "Português"]
+  },
+  "qualifications": {
+    "education": {
+      "gradDegrees": [
+        {
+          "name": "BTI"
+        }
+      ]
+    }
+  }
 }
 
 ###
@@ -48,3 +61,4 @@ content-type: application/json
   "username": "bira@email.com",
   "password": "user-pass"
 }
+

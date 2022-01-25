@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common/enums/http-status.enum';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import statusMessages from './status-messages/status-messages';
+import statusMessages from './status-messages';
 
 export const throwInternalError = () => {
   throw new HttpException(
@@ -11,6 +11,7 @@ export const throwInternalError = () => {
     HttpStatus.INTERNAL_SERVER_ERROR,
   );
 };
+
 export const throwError = (status: HttpStatus, errorMessage: string) => {
   throw new HttpException(
     {

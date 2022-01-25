@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import statusMessages from '../common/status-messages/status-messages';
-import { throwError } from '../common/utils';
+import { throwError } from 'src/app/utils/status-messages/utils';
+import statusMessages from '../../../utils/status-messages/status-messages';
 import { AuthService } from './auth.service';
 
 @Injectable()

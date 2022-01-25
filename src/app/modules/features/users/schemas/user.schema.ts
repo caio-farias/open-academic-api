@@ -13,13 +13,13 @@ export class User {
   @Prop({ required: true })
   lastName: string;
 
-  @Prop()
+  @Prop({ default: null })
   birthDate: string;
 
-  @Prop([String])
+  @Prop({ type: [String], default: [] })
   roles: string[];
 
-  @Prop()
+  @Prop({ default: null })
   profilePhoto: string;
 
   @Prop({ required: true })
@@ -28,34 +28,34 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop()
+  @Prop({ default: null })
   grade: number;
 
   @Prop({ default: 0 })
   productionsCount: number;
 
-  @Prop()
-  expirienceTime: string;
+  @Prop({ default: null })
+  expirienceTime: number;
 
   @Prop({
     default: [
       {
         socialNetwork: 'Linkedin',
-        link: '',
+        link: null,
       },
       {
         socialNetwork: 'Escavador',
-        link: '',
+        link: null,
       },
       {
         socialNetwork: 'Lattes',
-        link: '',
+        link: null,
       },
     ],
   })
   socialLinks: [{ socialNetwork: string; link: string }];
 
-  @Prop([String])
+  @Prop({ type: [String], default: [] })
   favorits: string[];
 
   @Prop({
@@ -64,17 +64,13 @@ export class User {
       interests: [],
       education: {
         gradDegrees: [],
-        masterDegress: [],
+        masterDegrees: [],
         phdDegrees: [],
         specializations: [],
       },
     },
   })
   qualifications: Qualifications;
-
-  getEmail() {
-    return this.email;
-  }
 }
 
 export type UserDocument = User & Document;

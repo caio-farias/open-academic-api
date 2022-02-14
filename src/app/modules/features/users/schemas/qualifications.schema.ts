@@ -1,8 +1,16 @@
 class Education {
-  gradDegrees: [{ name: string; university: string; duration: string }];
-  masterDegrees: [{ name: string; university: string; duration: string }];
-  phdDegrees: [{ name: string; university: string; duration: string }];
-  specializations: [{ subject: string }];
+  gradDegrees: [
+    { degreeSubject: string; university: string; duration: string[] },
+  ];
+  masterDegrees: [
+    { degreeSubject: string; university: string; duration: string[] },
+  ];
+  phdDegrees: [
+    { degreeSubject: string; university: string; duration: string[] },
+  ];
+  specializations: [
+    { subject: string; institution: string; duration: string[] },
+  ];
 }
 
 class Qualifications {
@@ -11,4 +19,5 @@ class Qualifications {
   interests: [{ subject: string; description: string }];
 }
 
+export { Education };
 export default Qualifications;

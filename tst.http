@@ -1,18 +1,41 @@
 @dev_url=http://localhost:3000/api/v1
 @token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJpcmFAZW1haWwuY29tIiwic3ViIjoiYmlyYUBlbWFpbC5jb20xNGMyNjFhMy03OWFlLTQwNWUtOTlhMC1kNDI3NGJmZjYwOTkiLCJpYXQiOjE2NDI2MzQyNzQsImV4cCI6MTY1MzAwMjI3NH0.hvmbmYv4bfq4sZnMFRC0UE1xIs8WGmHCzgFYHEqrirA
-@userId=bb503075-e1e2-4337-a48a-49fd68e8c86d
+# @userId=33607fa2-4dff-485b-9738-c6481c151e7d
+@userId=bac5922f-6fb3-4150-abcf-5ebd9fcc86e2
+@userIdAux=67af1516-0ebc-4c36-bf16-237ace17fb52
+
+## USER-FAVORITS
+
+# GET {{dev_url}}/user-favorits/{{userId}} HTTP/1.1
+# content-type: application/json
+# Authorization: {{token}}
+# ###
+
+# PATCH {{dev_url}}/users/{{userId}}/favorite/{{userIdAux}} HTTP/1.1
+# content-type: application/json
+# Authorization: {{token}}
+
+# ###
+# PATCH {{dev_url}}/users/{{userId}}/unfavorite/{{userIdAux}} HTTP/1.1
+# content-type: application/json
+# Authorization: {{token}}
+# ###
+
+
 ## USERS
 POST {{dev_url}}/users HTTP/1.1
 content-type: application/json
 
 {
-  "firstName": "Bira",
-  "lastName": "Silva",
-  "roles": ["Acadêmico", "Revisor"],
-  "email": "bira1@email.com",
-  "password": "user-pass"
+   "password":"user-pass",
+   "email":"bira_completo@email.com",
+   "roles":[
+      "Acadêmico",
+      "Revisor"
+   ],
+   "lastName":"Silva",
+   "firstName":"Bira COMPLETO"
 }
-
 ###
 
 GET {{dev_url}}/users/{{userId}} HTTP/1.1
@@ -20,7 +43,8 @@ content-type: application/json
 Authorization: {{token}}
 ###
 
-GET {{dev_url}}/users?education=grad HTTP/1.1
+GET {{dev_url}}/users?firstName=bira&roles[]=Acadêmico HTTP/1.1
+# GET {{dev_url}}/users?roles[]=Acadêmico HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -30,20 +54,86 @@ content-Type: application/json
 Authorization: {{token}}
 
 {
-  "expirienceTime": 5,
-  "roles": ["Tradutor","Acadêmico"],
-  "qualifications": {
-    "languages": ["Inglês", "Português"]
-  },
-  "qualifications": {
-    "education": {
-      "gradDegrees": [
-        {
-          "name": "BTI"
-        }
-      ]
-    }
-  }
+   "qualifications":{
+      "languages":[
+         "Inglês"
+      ],
+      "interests":[
+         {
+            "subject":"NestJS",
+            "description":"Framewoork bom"
+         }
+      ],
+      "education":{
+         "gradDegrees":[
+            {
+               "degreeSubject":"IT",
+               "university":"MIT",
+               "duration":[
+                  "Fevereiro de 1999",
+                  "Fevereiro de 2001"
+               ]
+            }
+         ],
+         "masterDegrees":[
+            {
+               "degreeSubject":"AI",
+               "university":"MIT",
+               "duration":[
+                  "Fevereiro de 2001",
+                  "Fevereiro de 2004"
+               ]
+            }
+         ],
+         "phdDegrees":[
+            {
+               "degreeSubject":"AI",
+               "university":"MIT",
+               "duration":[
+                  "Fevereiro de 2006",
+                  "Fevereiro de 2010"
+               ]
+            }
+         ],
+         "specializations":[
+            {
+               "subject":"AI",
+               "institution":"MIT",
+               "duration":[
+                  "Fevereiro de 2005",
+                  "Dezembro de 2005"
+               ]
+            }
+         ]
+      }
+   },
+   "socialLinks":[
+      {
+         "socialNetwork":"Linkedin",
+         "link":""
+      },
+      {
+         "socialNetwork":"Escavador",
+         "link":""
+      },
+      {
+         "socialNetwork":"Lattes",
+         "link":""
+      }
+   ],
+   "expirienceTime":10,
+   "productionsCount":0,
+   "grade":null,
+   "password":"user-pass",
+   "email":"bira_completo@email.com",
+   "profilePhoto":"https://universeofmemory.com/wp-content/uploads/2020/06/Man-Placeholder.png",
+   "roles":[
+      "Acadêmico",
+      "Revisor"
+   ],
+   "birthDate":"09-09-1988",
+   "lastName":"Silva",
+   "firstName":"Bira COMPLETO"
 }
 
 ###
@@ -58,7 +148,8 @@ POST {{dev_url}}/auth/login HTTP/1.1
 content-type: application/json
 
 {
-  "username": "bira@email.com",
-  "password": "user-pass"
+  "username": "caio4095@gmail.com",
+  "password": "caio4095@gmail.com"
 }
 
+###

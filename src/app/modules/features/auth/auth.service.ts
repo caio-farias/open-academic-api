@@ -10,10 +10,10 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.usersService.getUserByEmail(email);
+    const user = await this.usersService.getUserByEmailWithPassword(email);
     if (user && user.password === password) {
-      const { password, ...rest } = user;
-      return rest;
+      delete user['_doc'].password;
+      return user;
     }
   }
 

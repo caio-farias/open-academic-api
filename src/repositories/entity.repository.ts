@@ -22,6 +22,18 @@ export abstract class EntityRepository<T extends Document> {
       .exec();
   }
 
+  async findOneWithPassword(
+    entityFilterQuery: FilterQuery<T>,
+    projection?: Record<string, unknown>,
+  ): Promise<T | null> {
+    return this.entityModel
+      .findOne(entityFilterQuery, {
+        ...projection,
+      })
+      .select('+password')
+      .exec();
+  }
+
   async find(
     entityFilterQuery: FilterQuery<T>,
     options?: QueryOptions,
@@ -32,7 +44,9 @@ export abstract class EntityRepository<T extends Document> {
 
   async create(createEntityData: any): Promise<T> {
     const entity = new this.entityModel(createEntityData);
-    return entity.save();
+    const savedEntity = await entity.save();
+    savedEntity['_doc']['password'] && delete savedEntity['_doc']['password'];
+    return savedEntity;
   }
 
   async findOneAndUpdate(

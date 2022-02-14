@@ -23,25 +23,14 @@ import {
   generateFilter,
   generateNextPath,
 } from 'src/app/utils/functions/functions';
-import { enumEducationFromString } from 'src/app/utils/strings/enums';
-
-const generateQuery = (query, value) => {
-  switch (query) {
-    case 'expirienceTime':
-      return { $lte: value };
-    case 'roles':
-      return { $elemMatch: { $in: value } };
-    case 'qualifications.languages':
-      return { $elemMatch: { $in: value } };
-    case 'qualifications.education':
-      return { [enumEducationFromString(value)]: { $size: { $gte: 1 } } };
-  }
-};
+import { generateUserSearchQuery } from './utils/utils';
+import { UserFavoritsService } from '../user-favorits/user-favorits.service';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
+    private readonly userFavoritsService: UserFavoritsService,
     private configService: ConfigService,
   ) {}
 
@@ -77,10 +66,10 @@ export class UsersController {
         'qualifications.education': education,
       },
       {
-        firstName: { $regex: firstName || '' },
-        lastName: { $regex: lastName || '' },
+        firstName: { $regex: firstName || '', $options: 'i' },
+        lastName: { $regex: lastName || '', $options: 'i' },
       },
-      generateQuery,
+      generateUserSearchQuery,
     );
 
     const users = await this.usersService.getUsers(filter, {
@@ -111,13 +100,15 @@ export class UsersController {
     const user = await this.usersService.getUserByEmail(createUserDto.email);
     if (user)
       throwError(HttpStatus.BAD_REQUEST, statusMessages.emailAlreadyInUse);
-    return this.usersService.createUser(
+    const newUser = await this.usersService.createUser(
       createUserDto.firstName,
       createUserDto.lastName,
       createUserDto.roles,
       createUserDto.email,
       createUserDto.password,
     );
+    await this.userFavoritsService.createUserFavorits(newUser.userId);
+    return newUser;
   }
 
   @UseGuards(JwtAuthGuard)
@@ -136,6 +127,39 @@ export class UsersController {
   async deleteUser(@Param('userId') userId: string) {
     const user = await this.usersService.getUserById(userId);
     if (!user) throwError(HttpStatus.BAD_REQUEST, statusMessages.userNotExist);
-    this.usersService.deleteUser(userId);
+    await this.usersService.deleteUser(userId);
+    await this.userFavoritsService.createUserFavorits(userId);
   }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Patch(':userId/favorite/:favoriteUserId')
+  // async favoriteUser(
+  //   @Param('userId') userId: string,
+  //   @Param('favoriteUserId') favoriteUserId: string,
+  // ) {
+  //   const user = await this.usersService.getUserById(userId);
+  //   if (!user) throwError(HttpStatus.BAD_REQUEST, statusMessages.userNotExist);
+  //   const favoriteUser = await this.usersService.getUserById(favoriteUserId);
+  //   if (!favoriteUser)
+  //     throwError(HttpStatus.BAD_REQUEST, statusMessages.favoriteUserNotExist);
+  //   // if (!user.favorits.find((userId) => userId == favoriteUser.userId))
+  //   //   throwError(HttpStatus.BAD_REQUEST, statusMessages.userAlreadyFavorite);
+  //   return this.userFavoritsService.favoriteUser(user, favoriteUser._id);
+  // }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Patch(':userId/unfavorite/:favoriteUserId')
+  // async unfavoriteUser(
+  //   @Param('userId') userId: string,
+  //   @Param('favoriteUserId') favoriteUserId: string,
+  // ) {
+  //   const user = await this.usersService.getUserById(userId);
+  //   if (!user) throwError(HttpStatus.BAD_REQUEST, statusMessages.userNotExist);
+  //   const favoriteUser = await this.usersService.getUserById(favoriteUserId);
+  //   if (!favoriteUser)
+  //     throwError(HttpStatus.BAD_REQUEST, statusMessages.favoriteUserNotExist);
+  //   if (!user.favorits.find((userId) => userId == favoriteUser.userId))
+  //     throwError(HttpStatus.BAD_REQUEST, statusMessages.userAlreadyUnfavorite);
+  //   return this.userFavoritsService.unfavoriteUser(user, favoriteUser._id);
+  // }
 }

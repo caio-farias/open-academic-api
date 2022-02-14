@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import Qualifications from './qualifications.schema';
 
 @Schema({ toJSON: { getters: true }, toObject: { getters: true } })
@@ -22,10 +22,10 @@ export class User {
   @Prop({ default: null })
   profilePhoto: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, select: false })
   password: string;
 
   @Prop({ default: null })

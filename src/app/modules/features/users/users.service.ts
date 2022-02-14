@@ -20,6 +20,10 @@ export class UsersService {
     return this.usersRepository.findOne({ email });
   }
 
+  async getUserByEmailWithPassword(email: string): Promise<User> {
+    return this.usersRepository.findOneWithPassword({ email });
+  }
+
   async createUser(
     firstName: string,
     lastName: string,
@@ -27,7 +31,7 @@ export class UsersService {
     email: string,
     password: string,
   ): Promise<User> {
-    return this.usersRepository.create({
+    const user: User = await this.usersRepository.create({
       userId: uuid(),
       firstName,
       lastName,
@@ -35,24 +39,31 @@ export class UsersService {
       email,
       password,
     });
+
+    return user;
   }
 
   async findOrCreate(maybeUser: any): Promise<User> {
     const user = await this.getUserByEmail(maybeUser.email);
     if (user) return user;
     const { firstName, lastName, email, picture } = maybeUser;
-    return this.usersRepository.create({
+    const newUser = await this.usersRepository.create({
       userId: uuid(),
       firstName,
       lastName,
       email,
+      password: email,
       profilePhoto: picture,
-      password: uuid(email),
     });
+    return newUser;
   }
 
   async updateUser(userId: string, userUpdates: UpdateUserDto): Promise<User> {
-    return this.usersRepository.findOneAndUpdate({ userId }, userUpdates);
+    const user = await this.usersRepository.findOneAndUpdate(
+      { userId },
+      userUpdates,
+    );
+    return user;
   }
 
   async deleteUser(userId: string) {

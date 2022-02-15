@@ -37,6 +37,9 @@ export class User {
   @Prop({ default: null })
   expirienceTime: number;
 
+  @Prop({ default: null })
+  aboutMe: string;
+
   @Prop({
     default: [
       {

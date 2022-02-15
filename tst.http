@@ -1,7 +1,7 @@
 @dev_url=http://localhost:3000/api/v1
 @token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJpcmFAZW1haWwuY29tIiwic3ViIjoiYmlyYUBlbWFpbC5jb20xNGMyNjFhMy03OWFlLTQwNWUtOTlhMC1kNDI3NGJmZjYwOTkiLCJpYXQiOjE2NDI2MzQyNzQsImV4cCI6MTY1MzAwMjI3NH0.hvmbmYv4bfq4sZnMFRC0UE1xIs8WGmHCzgFYHEqrirA
 # @userId=33607fa2-4dff-485b-9738-c6481c151e7d
-@userId=bac5922f-6fb3-4150-abcf-5ebd9fcc86e2
+@userId=df060ac4-87e6-4bd3-b562-f4dbb21adc47
 @userIdAux=67af1516-0ebc-4c36-bf16-237ace17fb52
 
 ## USER-FAVORITS
@@ -148,8 +148,91 @@ POST {{dev_url}}/auth/login HTTP/1.1
 content-type: application/json
 
 {
-  "username": "caio4095@gmail.com",
-  "password": "caio4095@gmail.com"
+  "username": "teste@email.com",
+  "password": "123"
+}
+
+###
+PATCH {{dev_url}}/users/{{userId}} HTTP/1.1
+content-Type: application/json
+Authorization: {{token}}
+
+{
+   "qualifications":{
+      "languages":[
+         "Inglês"
+      ],
+      "interests":[
+         {
+            "subject":"NestJS",
+            "description":"Framewoork bom"
+         }
+      ],
+      "education":{
+         "gradDegrees":[
+            {
+               "degreeSubject":"IT",
+               "university":"MIT",
+               "duration":[
+                  "Fevereiro de 1999",
+                  "Fevereiro de 2001"
+               ]
+            }
+         ],
+         "masterDegrees":[
+            {
+               "degreeSubject":"AI",
+               "university":"MIT",
+               "duration":[
+                  "Fevereiro de 2001",
+                  "Fevereiro de 2004"
+               ]
+            }
+         ],
+         "phdDegrees":[
+            {
+               "degreeSubject":"AI",
+               "university":"MIT",
+               "duration":[
+                  "Fevereiro de 2006",
+                  "Fevereiro de 2010"
+               ]
+            }
+         ],
+         "specializations":[
+            {
+               "subject":"AI",
+               "institution":"MIT",
+               "duration":[
+                  "Fevereiro de 2005",
+                  "Dezembro de 2005"
+               ]
+            }
+         ]
+      }
+   },
+   "socialLinks":[
+      {
+         "socialNetwork":"Linkedin",
+         "link":"https://www.linkedin.com/in/caio-fs/"
+      },
+      {
+         "socialNetwork":"Escavador",
+         "link":"https://www.linkedin.com/in/caio-fs/"
+      },
+      {
+         "socialNetwork":"Lattes",
+         "link":"https://www.linkedin.com/in/caio-fs/"
+      }
+   ],
+   "expirienceTime":2,
+   "productionsCount":0,
+   "grade":null,
+   "roles":[
+      "Acadêmico",
+      "Revisor"
+   ],
+   "birthDate":"09-09-1998"
 }
 
 ###
